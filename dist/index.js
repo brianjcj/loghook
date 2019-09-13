@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var logHook_1 = require("./logHook");
+exports.LogHook = logHook_1.LogHook;
+exports.getLogger = logHook_1.getLogger;
+exports.log = logHook_1.log;
+exports.LogLevel = logHook_1.LogLevel;
+exports.setLogLevel = logHook_1.setLogLevel;
+var logView_1 = require("./logView");
+exports.Hook_LogView = logView_1.Hook_LogView;
+exports.setLogVisible = logView_1.setLogVisible;
+exports.setRecordLog = logView_1.setRecordLog;

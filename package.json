@@ -1,0 +1,19 @@
+{
+  "name": "loghook",
+  "version": "0.0.1",
+  "description": "a log lib preserves (console) line number and supports plugins.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brianjcj/loghook.git"
+  },
+  "keywords": [
+    "log"
+  ],
+  "author": "Brian Jiang",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts"
+}
