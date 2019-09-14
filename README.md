@@ -35,7 +35,7 @@ log.info({a:1, b:2}, [1,2,3])();
 
 Will output shomething like that:
 ```
-9/14/2019, 15:11:11.2 Info test default log [ 1, 2, 3 ] [ 4, 5, 6 ]
+9/14/2019, 15:11:11.002 Info test default log [ 1, 2, 3 ] [ 4, 5, 6 ]
 9/14/2019, 15:11:11.123 Info test format 1.1 is a float. [ 1, 2, 3 ]
 9/14/2019, 15:11:11.125 Warn [ 1, 2, 3, 4 ]
 9/14/2019, 15:11:11.127 Warn

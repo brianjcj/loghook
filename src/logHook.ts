@@ -102,10 +102,20 @@ export class LogHook {
     }
 }
 
+function padMs(ms: number) {
+    if (ms < 10) {
+        return "00" + ms.toString();
+    } else if (ms < 100) {
+        return "0" + ms.toString();
+    } else {
+        return ms.toString();
+    }
+}
+
 function getPrefix(name: string) {
     let date = new Date();
     return date.toLocaleString('en-US', {hour12: false}) + '.' +
-        date.getMilliseconds() + (name === '' ? '' : ' ' + name + ":");
+        padMs(date.getMilliseconds()) + (name === '' ? '' : ' ' + name + ":");
 }
 
 export function setLogLevel(level: LogLevel, name?: string) {
