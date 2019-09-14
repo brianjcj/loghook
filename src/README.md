@@ -15,7 +15,7 @@ Please NOTE: there are two parentheses needed to call log functions. The first
 parenthese is to call the hooks and the second is to finally call the console log
 function. We don't wrap console info in function to make the right file and line
 number information associated with the log. If calling the console log function
-inside the wrap function, the file and line number will associate with wrap
+inside the wrapper function, the file and line number will associate with wrapper
 function. It is obviously not we needed.
 
 hope it is too disturbing.
