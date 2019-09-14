@@ -9,7 +9,7 @@ The default enabled hook is to add timestamp and log level string to log message
 
 # Usage
 
-## use the default log
+## Use the default log
 
 Please NOTE: there are two parentheses needed to call log functions. The first
 parenthese is to call the hooks and the second is to finally call the console log
