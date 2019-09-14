@@ -11,13 +11,24 @@ export enum LogLevel {
 const noop = function () {
 };
 
-export type PluginHookFnType = (logger: LogHook, level: LogLevel, ...message: any[]) => any[];
+export interface LogObject {
+    message?: any;
+    optionalParams: any[];
+}
 
-export function Hook_AddNameAndTime(logger: LogHook, level: LogLevel, ...message: any[]): any[] {
-    let args: any = [].slice.call(message);
-    args.unshift(getPrefix(logger.name));
-    args.unshift(LogLevel[level]);
-    return args;
+export type PluginHookFnType = (logger: LogHook, level: LogLevel, logObject: LogObject) => void;
+
+export function Hook_AddNameAndTime(logger: LogHook, level: LogLevel, logObject: LogObject): void {
+    let prefix = getPrefix(logger.name) + " " + LogLevel[level];
+    if (typeof logObject.message == 'string') {
+        // message is string. it might contain format flags like %d, %s
+        logObject.message = prefix +  " " + logObject.message;
+    } else {
+        if (logObject.message != undefined) {
+            logObject.optionalParams.unshift(logObject.message);
+        }
+        logObject.message = prefix;
+    }
 }
 
 export class LogHook {
@@ -52,39 +63,42 @@ export class LogHook {
     }
 
     // https://news.ycombinator.com/item?id=5540716
-    logTemplate(level: LogLevel, fn: Function, ...message: any[]) {
+    logTemplate(level: LogLevel, fn: Function, message?: any, ...optionalParams: any[]) {
         if (level < this.logLevel) {
             return noop;
         }
 
-        for (let hook of this.hooks) {
-            message = hook(this, level, ...message);
+        let logObject: LogObject = {
+            message: message,
+            optionalParams: optionalParams
         }
 
-        message.unshift(console);
+        for (let hook of this.hooks) {
+            message = hook(this, level, logObject);
+        }
 
-        return fn.bind.apply(fn, message as any);
+        return fn.bind.call(fn, console, logObject.message, ...logObject.optionalParams);
     }
 
-    trace(...message: any[]) {
-        return this.logTemplate(LogLevel.Trace, console.trace, ...message);
+    trace(message?: any, ...optionalParams: any[]) {
+        return this.logTemplate(LogLevel.Trace, console.trace, message, ...optionalParams);
     }
 
-    debug(...message: any[]) {
-        // return this.logTemplate(LogLevel.Debug, console.debug, ...message);
-        return this.logTemplate(LogLevel.Debug, console.info, ...message);
+    debug(message?: any, ...optionalParams: any[]) {
+        // use console.info for debug
+        return this.logTemplate(LogLevel.Debug, console.info, message, ...optionalParams);
     }
 
-    info(...message: any[]) {
-        return this.logTemplate(LogLevel.Info, console.info, ...message);
+    info(message?: any, ...optionalParams: any[]) {
+        return this.logTemplate(LogLevel.Info, console.info, message, ...optionalParams);
     }
 
-    warn(...message: any[]) {
-        return this.logTemplate(LogLevel.Warn, console.warn, ...message);
+    warn(message?: any, ...optionalParams: any[]) {
+        return this.logTemplate(LogLevel.Warn, console.warn, message, ...optionalParams);
     }
 
-    error(...message: any[]) {
-        return this.logTemplate(LogLevel.Error, console.error, ...message);
+    error(message?: any, ...optionalParams: any[]) {
+        return this.logTemplate(LogLevel.Error, console.error, message, ...optionalParams);
     }
 }
 

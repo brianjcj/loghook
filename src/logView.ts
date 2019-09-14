@@ -1,5 +1,5 @@
 
-import { LogHook, LogLevel } from "./logHook"
+import { LogHook, LogLevel, LogObject } from "./logHook"
 
 let logViewVisible = false;
 let shouldRecordLog = false;
@@ -8,12 +8,11 @@ const maxLogLength = 1000;
 let recordLines: string[] = [];
 
 
-export function Hook_LogView(logger: LogHook, level: LogLevel, ...message: any[]): any[] {
-    record(message);
-    return message;
+export function Hook_LogView(logger: LogHook, level: LogLevel, logObject: LogObject) {
+    record(logObject);
 }
 
-function record(message: any[]) {
+function record(logObject: LogObject) {
     if (!shouldRecordLog) {
         return;
     }
@@ -21,7 +20,9 @@ function record(message: any[]) {
     if (recordLines.length === maxLogLength + 100) {
         recordLines.splice(0, 100);
     }
-    let line = message.join(" ");
+
+    // TODO: support string substitutions, like %d, %s, %f and etc
+    let line = logObject.message.toString() + " " +   logObject.optionalParams.join(" ");
     recordLines.push(line);
 
     if (logViewVisible) {
