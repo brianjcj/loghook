@@ -126,6 +126,12 @@ export function setLogLevel(level: LogLevel, name?: string) {
     }
 }
 
+export function setLogLevelForAllLoggers(level: LogLevel) {
+    for (let k in _loggersByName) {
+        _loggersByName[k].setLogLevel(level);
+    }
+}
+
 export const log = new LogHook();
 
 let _loggersByName: { [k: string]: LogHook } = {};
@@ -143,11 +149,15 @@ export function getLogger(name: string) {
 }
 
 const logHookObj = {
-    setLogLevel: setLogLevel
+    setLogLevel: setLogLevel,
+    setLogLevelForAllLoggers: setLogLevelForAllLoggers,
 };
 
-try {
-    if (window) {
-        (window as any).LOGHOOK = logHookObj;
-    }
-} catch (err) { }
+export function exportContrlWithName(name: string) {
+    try {
+        if (window) {
+            (window as any)[name] = logHookObj;
+        }
+    } catch (err) { }
+}
+

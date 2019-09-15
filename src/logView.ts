@@ -75,8 +75,10 @@ const logViewObj = {
     setRecordLog: setRecordLog,
 };
 
-try {
-    if (window) {
-        (window as any).LOGVIEW = logViewObj;
-    }
-} catch (err) {}
+export function exportViewWithName(name: string) {
+    try {
+        if (window) {
+            (window as any).LOGVIEW = logViewObj;
+        }
+    } catch (err) {}
+}

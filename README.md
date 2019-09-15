@@ -16,9 +16,9 @@ parenthese is to call the hooks and the second is to finally call the console lo
 function. We don't wrap console info in function to make the right file and line
 number information associated with the log. If calling the console log function
 inside the wrapper function, the file and line number will associate with wrapper
-function. It is obviously not we needed.
+function. It is obviously not we expect.
 
-hope it is too disturbing.
+hope it is not too disturbing.
 
 
 ```ts
@@ -114,9 +114,19 @@ logger.clearAllHook();
 
 # Set log level in browser console
 
+You can export setLogLevel function to window object. e.g.,
+
 ```ts
-window.LOGHOOK.setLogLevel(1);  // set the default logger's level to debug
-window.LOGHOOK.setLogLevel(0, "App");  // set the level of logger name "App" to trace
+import { exportContrlWithName } from "loghook"
+exportContrlWithName("MY_LOG_HOOK_CTL");
+```
+
+Then you can set log level in browser control like that:
+```ts
+window.MY_LOG_HOOK_CTL.setLogLevel(1);  // set the default logger's level to debug
+window.MY_LOG_HOOK_CTL.setLogLevel(0, "App");  // set the level of logger name "App" to trace
+
+window.MY_LOG_HOOK_CTL.setLogLevelForAllLoggers(3); // set log level for all loggers to warn
 ```
 
 You can use it to turn on/off logging on fly when running your app in the
