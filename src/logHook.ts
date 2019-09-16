@@ -71,7 +71,7 @@ export class LogHook {
         let logObject: LogObject = {
             message: message,
             optionalParams: optionalParams
-        }
+        };
 
         for (let hook of this.hooks) {
             message = hook(this, level, logObject);
@@ -153,7 +153,7 @@ const logHookObj = {
     setLogLevelForAllLoggers: setLogLevelForAllLoggers,
 };
 
-export function exportContrlWithName(name: string) {
+export function exportControlWithName(name: string) {
     try {
         if (window) {
             (window as any)[name] = logHookObj;
